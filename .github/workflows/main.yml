@@ -1,0 +1,46 @@
+name: Terraform plan and apply specific folder
+on:
+  workflow_dispatch:
+    inputs: 
+      path: 
+        description: 'Folder Path'
+        required: true
+        type: string
+      action:
+        type: choice
+        description: 'Select Action'
+        options:
+        - Plan
+        - Apply
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform-plan-apply:
+    name: Terraform Plan Apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/${{ inputs.path }}
+    steps:
+      - name: Checkout Repo
+        uses: action/checkout@v4
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::503379645516:role/GitHubAction-AssumeRoleWithAction
+          aws-region: us-west-1
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+      - name: Terraform Init
+        run: terraform init -reconfigure
+      - name: Terraform Plan
+        run: terraform plan -lock=false
+      - name: Terraform Plan
+        if: ${{ inputs.action == 'Apply' }}
+        run: terraform apply -auto-approve -lock=false
+        
+  
