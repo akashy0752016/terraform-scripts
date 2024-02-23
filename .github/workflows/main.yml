@@ -25,7 +25,7 @@ jobs:
         working-directory: ${{ github.workspace }}/${{ inputs.path }}
     steps:
       - name: Checkout Repo
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
       - name: Configure aws credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
