@@ -70,7 +70,7 @@ resource "aws_rds_cluster" "this" {
        timeout_action = lookup(scaling_configuration.value, "timeout_action", null)
     }
   }
-  dynamic "resrestore_to_point_in_time" {
+  dynamic "restore_to_point_in_time" {
     for_each = length(keys(var.restore_to_point_in_time)) == 0 ? [] : [var.restore_to_point_in_time]
 
     content {
@@ -88,7 +88,7 @@ resource "aws_rds_cluster" "this" {
     prevent_destroy = true
   }
 
-  tags = merger(var.tags, var.cluster_tags)
+  tags = merge(var.tags, var.cluster_tags)
 }
 
 resource "aws_security_group" "this" {
@@ -112,8 +112,8 @@ resource "aws_security_group_rule" "default_ingress" {
 }
 
 resource "aws_security_group_rule" "egress" {
-  count = var.create_cluster && var.create_security_group ? var.security_group_egress_rules  : {}
-
+  #count = var.create_cluster && var.create_security_group ? var.security_group_egress_rules  : {}
+  for_each  = var.create_cluster && var.create_security_group ? var.security_group_egress_rules : {}
   type = "egress"
   from_port = lookup(each.value, "from_port", local.port)
   to_port = lookup(each.value, "to_port", local.port)

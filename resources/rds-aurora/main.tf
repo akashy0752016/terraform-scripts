@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "rds_key_policy" {
 }
 module "rds_kms_key" {
   source = "../../modules/kms"
-  name = "${local.name-prefix}rds"
+  name = "${local.name-prefix}airbus-rds"
   policy = data.aws_iam_policy_document.rds_key_policy.json
   tags = local.tags
   enable_key_rotation = false
@@ -62,7 +62,7 @@ module "aurora_mysql" {
   database_name = var.database_name
   create_random_password = false
   enable_http_endpoint = var.enable_http_endpoint
-  vpc_id = var.vpc_id
+  vpc_id = ${data.terra=}
   subnets = var.subnets
   create_db_subnet_group = true
   db_subnet_group_name = var.db_subnet_group_name

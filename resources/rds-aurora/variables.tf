@@ -51,7 +51,7 @@ variable "db_subnet_group_name" {
 }
 variable "subnets" {
   description = "List of subnets IDs used by database subnet group created"
-  type = list(string)
+  type = set(string)
   default = []
 }
 variable "apply_immediately" {

@@ -222,7 +222,7 @@ variable "vpc_id" {
 }
 variable "subnets" {
   description = "List of subnet IDs used by database subnet group created"
-  type = list(string)
+  type = set(string)
   default = []
 }
 variable "db_subnet_group_name" {
