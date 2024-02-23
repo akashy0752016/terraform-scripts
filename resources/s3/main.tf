@@ -1,5 +1,5 @@
 locals {
-  name = "airbus-flat-file-storage"
+  name = "airbus-file-storage"
   tags = {
     CreatedBy = "Terraform"
   }
