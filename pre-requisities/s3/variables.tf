@@ -2,7 +2,7 @@ variable "region" {
   default = null
 }
 variable "terraform-state-folder" {
-  default = "airbus-terraform-state-folder"
+  default = "airbus-terraform-state-folder-test"
 }
 variable "acl_value" {
   default = "private"
