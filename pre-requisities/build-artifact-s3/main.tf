@@ -3,13 +3,13 @@ terraform {
 }
 
 locals {
-  name = "build-arifact-bucket"
+  name = "airbus-build-arifact-bucket"
   tags = {
     CreatedBy = "Terraform"
   }
 }
 
-resource "aws_s3_bucket" "build-arifact-bucket" {
+resource "aws_s3_bucket" "airbus-build-arifact-bucket" {
    bucket = lower(var.terraform-state-folder)
    acl = var.acl_value
    logging {

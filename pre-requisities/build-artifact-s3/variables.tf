@@ -1,5 +1,5 @@
 variable "region" {
-  default = null
+  default = "us-east-1"
 }
 variable "terraform-state-folder" {
   default = "terraform-state"
