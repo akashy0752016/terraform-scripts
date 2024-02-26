@@ -46,13 +46,13 @@ data "aws_iam_policy_document" "rds_key_policy" {
     resources = ["*"]
   }
 }
-module "rds_kms_key" {
-  source = "../../modules/kms"
-  name = "${local.name-prefix}airbus-rds"
-  policy = data.aws_iam_policy_document.rds_key_policy.json
-  tags = local.tags
-  enable_key_rotation = false
-}
+#module "rds_kms_key" {
+#  source = "../../modules/kms"
+#  name = "${local.name-prefix}airbus-rds"
+#  policy = data.aws_iam_policy_document.rds_key_policy.json
+#  tags = local.tags
+#  enable_key_rotation = false
+#}
 module "aurora_mysql" {
   source = "../../modules/rds/aurora"
   name = lower("${local.name-prefix}${var.name}")
@@ -62,12 +62,13 @@ module "aurora_mysql" {
   database_name = var.database_name
   create_random_password = false
   enable_http_endpoint = var.enable_http_endpoint
-  vpc_id = ${data.terra=}
+  #vpc_id = "${data.terraform_remote_state.vpc.outputs.vpc_id}"
+  vpc_id = "vpc-0c5e50168b93b0e91"
   subnets = var.subnets
   create_db_subnet_group = true
   db_subnet_group_name = var.db_subnet_group_name
   create_security_group = true
-  kms_key_id = module.rds_kms_key.key_arn
+  kms_key_id = "arn:aws:kms:us-east-1:051723651593:key/8f758b26-685f-4526-be6a-860e57697d1b"
   deletion_protection = true
   apply_immediately = var.apply_immediately
   skip_final_snapshot = var.skip_final_snapshot
@@ -78,7 +79,7 @@ module "aurora_mysql" {
     seconds_until_auto_pause = var.scaling_seconds_until_auto_pause
     timeout_action = var.scaling_timeout_action
   }
-  depends_on = [ module.rds_kms_key ]
+  #depends_on = [ module.rds_kms_key ]
 }
 module "rds_secret_key" {
   source = "../../modules/secretmanager"

@@ -1,0 +1,66 @@
+openapi: "3.0.1"
+info:
+  title: "tasks-api"
+  version: "v1.0"
+x-amazon-apigateway-request-validators:
+  all:
+    validateRequestBody: true
+    validateRequestParameters: true
+  params:
+    validateRequestBody: false
+    validateRequestParameters: true
+  body:
+    validateRequestBody: true
+    validateRequestParameters: false
+security:
+  - ApiKeyAuth: []
+paths:
+  /airbus:
+    get:
+      summary: List tasks
+      description: Returns a list of tasks
+      responses:
+        200:
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AnyValue"
+        500:
+          description: "Internal Server Error"
+          content: {}
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:${aws_region}:lambda:path/2015-03-31/functions/${get_lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        timeoutInMillis: ${lambda_identity_timeout}
+        type: "aws_proxy"
+        contentHandling: "CONVERT_TO_TEXT"
+      x-amazon-apigateway-auth:
+        type: "NONE"
+      x-amazon-apigateway-api-key-source: "HEADER"
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: x-api-key
+      in: header
+  schemas:
+    AnyValue:
+      anyOf:
+        - type: string
+        - type: number
+        - type: integer
+        - type: boolean
+        - type: array
+          items: {}
+        - type: object
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string

@@ -2,7 +2,7 @@ variable "region" {
   default = "us-east-1"
 }
 variable "terraform-state-folder" {
-  default = "airbus-build-arifact-bucket"
+  default = "airbus-build-artifact-bucket"
 }
 variable "acl_value" {
   default = "private"

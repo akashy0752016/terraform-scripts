@@ -45,6 +45,7 @@ variable "account" {
 variable "vpc_id" {
   description = "Id of the VPC where to create security group"
   type = string
+  default = null
 }
 variable "db_subnet_group_name" {
   type = string

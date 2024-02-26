@@ -22,7 +22,7 @@ resource "aws_api_gateway_rest_api" "this" {
 resource "aws_api_gateway_deployment" "dummy" {
   rest_api_id = local.rest_api_id
   triggers = {
-    redeployment = sha1(jsondecode(aws_api_gateway_rest_api.this[0].body))
+    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.this[0].body))
   }
 }
 resource "aws_cloudwatch_log_group" "this" {
@@ -52,7 +52,7 @@ resource "aws_api_gateway_deployment" "this" {
   rest_api_id = local.rest_api_id
   stage_name = aws_api_gateway_stage.this.stage_name
   triggers = {
-    redeployment = sha1(jsondecode(aws_api_gateway_rest_api.this[0].body))
+    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.this[0].body))
   }
   lifecycle {
     create_before_destroy = true

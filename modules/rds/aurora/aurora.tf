@@ -85,7 +85,7 @@ resource "aws_rds_cluster" "this" {
     ignore_changes = [
         replication_source_identifier, global_cluster_identifier
     ]
-    prevent_destroy = true
+    prevent_destroy = false
   }
 
   tags = merge(var.tags, var.cluster_tags)

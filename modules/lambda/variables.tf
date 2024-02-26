@@ -98,6 +98,7 @@ variable "create_s3_lambda_notifications" {
 variable "s3_source_arn" {
   type = string
   description = "The ARN of S3 bucket which needs invoke permission on lambda"
+  default = null
 }
 variable "s3_bucket_id" {
   description = "The id of S3 bucket which sends bucket event to lambda"
