@@ -113,7 +113,7 @@ variable "skip_final_snapshot" {
 variable "deletion_protection" {
   description = "If the DB instance should have deletion protection enabled. The database can't be deleted when this value is set to `true`. The defauls is `false`"
   type = bool
-  default = true
+  default = false
 }
 variable "backup_retention_period" {
   description = "The days to retain backup for. Default `7`"
